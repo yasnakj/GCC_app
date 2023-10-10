@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">GCCApp</string>
+
+    <string name="app_title">GCC Cycling</string>
+    <string name="registration_title">GCC Cycling Registration</string>
+
+    <string name="username_hint">(Please enter your username)</string>
+    <string name="username_label">Username</string>
+
+    <string name="email_hint">(Please enter your email)</string>
+    <string name="email_label">Email</string>
+
+    <string name="password_hint">(Please enter your password)</string>
+    <string name="password_label">Password</string>
+    <string name="password_confirm_hint">(Please enter your password again)</string>
+    <string name="password_confirm_label">Confirm your Password</string>
+
+    <string name="login_button_text">LOGIN</string>
+    <string name="register_button_text">REGISTER</string>
+
+    <string name="welcome_title">WELCOME</string>
+
+    <string name="role_title">ROlE</string>
+    <string name="selected_role" />
+
+    <string name="roles_hint">(Please choose a role)</string>
+    <string-array name="roles_array">
+        <item>Administrator</item>
+        <item>Participant</item>
+        <item>Organizer</item>
+    </string-array>
+
+
+</resources>
