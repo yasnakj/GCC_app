@@ -1,7 +1,5 @@
 # GCC_app
-# DELIVERABLE 1 - User Account Management Component
 
-# Due date: Oct 10,2023
 # Group 56:
 	Shanzay Aamir - 300282079
 	Jasmine Cadotte - 300291402
