@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         // Delete the existing database
         // COMMENT OUT THE BELOW WHEN WORKING ON REGISTRATION OTHERWISE IT WILL GET DELETED AND
         // REVERT TO THE ADMIN AND USER ACCOUNT ONLY
-//        this.deleteDatabase(DatabaseHelper.DATABASE_NAME);
+        this.deleteDatabase(DatabaseHelper.DATABASE_NAME);
 
         dbHelper = new DatabaseHelper(this);  // Initialize DB Helper
 

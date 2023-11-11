@@ -12,13 +12,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Table name
     public static final String TABLE_USERS = "users";
+    public static final String TABLE_EVENTS = "events";
 
-    // Column names
+    // Users column names
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_ROLE = "role";
+
+    // Events column names
+    public static final String COLUMN_EVENT_ID = "event_id";
+    public static final String COLUMN_EVENT_TYPE = "event_type";
+    public static final String COLUMN_EVENT_DETAILS = "event_details";
+    public static final String COLUMN_LEVEL = "level";
 
     // Create table query
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + "("
@@ -27,6 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + COLUMN_EMAIL + " TEXT,"
             + COLUMN_PASSWORD + " TEXT NOT NULL,"
             + COLUMN_ROLE + " TEXT NOT NULL" + ")";
+    private static final String CREATE_TABLE_EVENTS = "CREATE TABLE " + TABLE_EVENTS + "("
+            + COLUMN_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_EVENT_TYPE + " TEXT NOT NULL,"
+            + COLUMN_EVENT_DETAILS + " TEXT NOT NULL,"
+            + COLUMN_LEVEL + " TEXT NOT NULL" + ")";
+
 
     // As this is a subclass of the SQLiteOpenHelper, it follows the same properties which will
     // create a new database if there isnt one using the onCreate and if there is a database it will
@@ -38,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
+        db.execSQL(CREATE_TABLE_EVENTS);
 
         // Insert initial data
         insertInitialData(db);
@@ -49,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues adminValues = new ContentValues();
         adminValues.put(COLUMN_USERNAME, "admin");
         adminValues.put(COLUMN_EMAIL, "admin@example.com");
-        adminValues.put(COLUMN_PASSWORD, "adminpass");
+        adminValues.put(COLUMN_PASSWORD, "admin");
         adminValues.put(COLUMN_ROLE, "administrator");
         db.insert(TABLE_USERS, null, adminValues);
 
@@ -68,12 +82,45 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         userOrganizerValues.put(COLUMN_PASSWORD, "userorganizerpass");
         userOrganizerValues.put(COLUMN_ROLE, "organizer");
         db.insert(TABLE_USERS, null, userOrganizerValues);
+
+        ContentValues eventValues = new ContentValues();
+        eventValues.put(COLUMN_EVENT_TYPE, "Event");
+        eventValues.put(COLUMN_EVENT_DETAILS, "This is Cool!");
+        eventValues.put(COLUMN_LEVEL, "Varsity");
+        db.insert(TABLE_EVENTS, null, eventValues);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if exists and create a new one
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         onCreate(db);
+    }
+
+    // Method to add an event to the database
+    public long insertEvent(String eventType, String eventDetails, String level) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_EVENT_TYPE, eventType);
+        values.put(COLUMN_EVENT_DETAILS, eventDetails);
+        values.put(COLUMN_LEVEL, level);
+        return db.insert(TABLE_EVENTS, null, values);
+    }
+
+    // Method to edit an existing event in the database
+    public int updateEvent(int eventID, String eventType, String eventDetails, String level) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_EVENT_TYPE, eventType);
+        values.put(COLUMN_EVENT_DETAILS, eventDetails);
+        values.put(COLUMN_LEVEL, level);
+        return db.update(TABLE_EVENTS, values, COLUMN_EVENT_ID + " = ?", new String[] { String.valueOf(eventID) });
+    }
+
+    // Method to delete an event from the database
+    public int deleteEvent(int eventID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_EVENTS, COLUMN_EVENT_ID + " = ?", new String[] { String.valueOf(eventID) });
     }
 }
